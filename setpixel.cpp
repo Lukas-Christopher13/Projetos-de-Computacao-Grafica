@@ -16,7 +16,8 @@ int ndcToDivice(float value);
 
 unsigned int createVBO(float vetices[]);
 unsigned int createVAB();
-unsigned int compileShaders();
+unsigned int compileShaders(const char *shaderStr, int shaderType);
+unsigned int createShaderProgram();
 
 void setPixl();
 int window(int width, int height);
@@ -116,6 +117,30 @@ unsigned int createVAB() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     
     return VAO;
+}
+
+unsigned int createShaderProgram() {
+    unsigned int vertexShader = compileShaders(vertexShaderSource, GL_VERTEX_SHADER);
+    unsigned int fragmentShader = compileShaders(fragmentShaderSource, GL_FRAGMENT_SHADER);
+
+    unsigned int shaderProgram = glCreateProgram();
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
+    glLinkProgram(shaderProgram);
+
+    int success;
+    char infoLog[512];
+
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    if (!success) {
+        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+    }
+
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+
+    return shaderProgram;
 }
 
 unsigned int compileShaders(const char *shaderStr, int shaderType) {
