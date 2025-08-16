@@ -19,8 +19,8 @@ unsigned int createVAB();
 unsigned int compileShaders(const char *shaderStr, int shaderType);
 unsigned int createShaderProgram();
 
-void setPixl();
-int window(int width, int height);
+int window(int width, int height, float vertices[]);
+void setPixl(unsigned int shaderProgram, unsigned int VAO);
 
 
 const char *vertexShaderSource = "#version 460 core\n"
@@ -64,10 +64,12 @@ int main() {
 
     float vertices[] = {ndcx, ndcy, 0.0f};
 
+    window(width, height, vertices);
+
     return 0;
 }
 
-int window(int width, int height) {
+int window(int width, int height, float vertices[]) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -87,8 +89,13 @@ int window(int width, int height) {
         return -1;
     }
 
-    //window loop
+    unsigned int sharedProgram = createShaderProgram();
+    unsigned int VBO = createVBO(vertices);
+    unsigned int VAO = createVAO();
+
+
     while (!glfwWindowShouldClose(window)) {
+        setPixl(sharedProgram, VAO);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -96,6 +103,13 @@ int window(int width, int height) {
     glfwTerminate();
 
     return 0;
+}
+
+void setPixl(unsigned int shaderProgram, unsigned int VAO) {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glUseProgram(shaderProgram);
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_POINTS, 0, 1);
 }
 
 //Criar o buffer e manda pra GPU
@@ -109,7 +123,7 @@ unsigned int createVBO(float vertices[]) {
 }
 
 //Diz como interpretar o array
-unsigned int createVAB() {
+unsigned int createVAO() {
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
