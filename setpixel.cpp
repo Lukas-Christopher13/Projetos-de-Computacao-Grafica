@@ -14,12 +14,12 @@ float worldToNdcX(float x);
 float worldToNdcY(float y);
 int ndcToDivice(float value);
 
-unsigned int createVBO(float vetices[]);
-unsigned int createVAB();
+unsigned int createVBO(float vertices[], int verticeSize);
+unsigned int createVAO();
 unsigned int compileShaders(const char *shaderStr, int shaderType);
 unsigned int createShaderProgram();
 
-int window(int width, int height, float vertices[]);
+int window(int width, int height, float vertices[], int verticeSize);
 void setPixl(unsigned int shaderProgram, unsigned int VAO);
 
 
@@ -64,12 +64,12 @@ int main() {
 
     float vertices[] = {ndcx, ndcy, 0.0f};
 
-    window(width, height, vertices);
+    window(width, height, vertices, sizeof(vertices));
 
     return 0;
 }
 
-int window(int width, int height, float vertices[]) {
+int window(int width, int height, float vertices[], int verticeSize) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -90,7 +90,7 @@ int window(int width, int height, float vertices[]) {
     }
 
     unsigned int sharedProgram = createShaderProgram();
-    unsigned int VBO = createVBO(vertices);
+    unsigned int VBO = createVBO(vertices, verticeSize);
     unsigned int VAO = createVAO();
 
 
@@ -113,11 +113,11 @@ void setPixl(unsigned int shaderProgram, unsigned int VAO) {
 }
 
 //Criar o buffer e manda pra GPU
-unsigned int createVBO(float vertices[]) {
+unsigned int createVBO(float vertices[], int verticeSize) {
     unsigned int VBO;
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, verticeSize , vertices, GL_STATIC_DRAW);
 
     return VBO;
 }
