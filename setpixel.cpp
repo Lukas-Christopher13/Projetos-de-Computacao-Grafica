@@ -18,6 +18,9 @@ unsigned int createVBO(float vetices[]);
 unsigned int createVAB();
 unsigned int compileShaders();
 
+void setPixl();
+int window(int width, int height);
+
 
 const char *vertexShaderSource = "#version 460 core\n"
     "layout (location = 0) in vec3 aPos;\n"
@@ -59,6 +62,37 @@ int main() {
     cout << "Coordenadas NDC (" << ndcx << ", " << ndcy << ")" << endl;
 
     float vertices[] = {ndcx, ndcy, 0.0f};
+
+    return 0;
+}
+
+int window(int width, int height) {
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    GLFWwindow* window = glfwCreateWindow(width, height, "SetPixel", NULL, NULL);
+    if (window == NULL) {
+        cout << "Falha ao criar a janela" << endl;
+        glfwTerminate();
+        return -1;
+    }
+
+    glfwMakeContextCurrent(window);
+
+    if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        cout << "Falha ao inicializar o GLAD" << endl;
+        return -1;
+    }
+
+    //window loop
+    while (!glfwWindowShouldClose(window)) {
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
 
     return 0;
 }
@@ -109,5 +143,3 @@ float worldToNdcX(float x) {
 float worldToNdcY(float y) {
     return (y - Y_MIN)/(Y_MAX - Y_MIN);
 }
-
-
