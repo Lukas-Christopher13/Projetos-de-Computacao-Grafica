@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <math.h>
 
 using namespace std;
 
@@ -12,7 +13,8 @@ using namespace std;
 
 float worldToNdcX(float x);
 float worldToNdcY(float y);
-int ndcToDivice(float value);
+int ndcToDiviceX(float ndcx, int width);
+int ndcToDiviceY(float ndcy, int height);
 
 unsigned int createVBO(float vertices[], int verticeSize);
 unsigned int createVAO();
@@ -42,6 +44,7 @@ int main() {
     int width, height;
     float x, y;
     float ndcx, ndcy;
+    int dcx, dcy;
 
     cout << "Insira o tamanho da janela" << endl;
     cout << "Width: ";
@@ -55,15 +58,19 @@ int main() {
     cout << "y: ";
     cin >> y;
 
-    cout << "Coordenadas do mundo (" << x << ", " << y << ")" << endl;
+    cout << "Coordenadas do Mndo: (" << x << ", " << y << ")" << endl;
     
     ndcx = worldToNdcX(x);
     ndcy = worldToNdcY(y);
 
-    cout << "Coordenadas NDC (" << ndcx << ", " << ndcy << ")" << endl;
+    cout << "Coordenadas NDC: (" << ndcx << ", " << ndcy << ")" << endl;
+    
+    dcx = ndcToDiviceX(ndcx, width);
+    dcy = ndcToDiviceY(ndcy, height);
+
+    cout << "Coordenadas do Dispositivo: (" << dcx << ", " << dcy << ")" << endl;
 
     float vertices[] = {ndcx, ndcy, 0.0f};
-
     window(width, height, vertices, sizeof(vertices));
 
     return 0;
@@ -181,4 +188,12 @@ float worldToNdcX(float x) {
 
 float worldToNdcY(float y) {
     return (y - Y_MIN)/(Y_MAX - Y_MIN);
+}
+
+int ndcToDiviceX(float ndcx, int width) {
+    return (int)round(((ndcx + 1)/2) * width);
+}
+
+int ndcToDiviceY(float ndcy, int height) {
+    return (int)round(((ndcy + 1)/2) * height);
 }
