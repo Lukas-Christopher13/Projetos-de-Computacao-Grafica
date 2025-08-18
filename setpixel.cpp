@@ -183,17 +183,17 @@ unsigned int compileShaders(const char *shaderStr, int shaderType) {
 }
 
 float worldToNdcX(float x) {
-    return (x - X_MIN)/(X_MAX - X_MIN);
+    return 2.0 * (x - X_MIN) / (X_MAX - X_MIN) - 1.0;
 }
 
 float worldToNdcY(float y) {
-    return (y - Y_MIN)/(Y_MAX - Y_MIN);
+    return 2.0 * (y - X_MIN) / (X_MAX - X_MIN) - 1.0;
 }
 
 int ndcToDiviceX(float ndcx, int width) {
-    return (int)round(((ndcx + 1)/2) * width);
+    return (int)round((ndcx + 1.0) / 2.0 * (width - 1));
 }
 
 int ndcToDiviceY(float ndcy, int height) {
-    return (int)round(((ndcy + 1)/2) * height);
+    return (int)round((ndcy + 1.0) / 2.0 * (height - 1));
 }
