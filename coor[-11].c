@@ -5,10 +5,10 @@
 #define NDH 800
 #define NDV 600
 
-#define X_MIN 0
-#define X_MAX 100
-#define Y_MIN 0
-#define Y_MAX 100
+#define X_MIN 10.5
+#define X_MAX 100.3
+#define Y_MIN 10.5
+#define Y_MAX 100.3
 
 // ============ Transformações NDC [-1,1] =================
 void user_to_ndc_centralizado(double x, double y, double *ndcx, double *ndcy) {
