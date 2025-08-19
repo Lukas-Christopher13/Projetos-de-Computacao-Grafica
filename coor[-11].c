@@ -10,7 +10,7 @@
 #define Y_MIN 0
 #define Y_MAX 100
 
-// ============ Transformações NDC [0,1] =================
+// ============ Transformações NDC [-1,1] =================
 void user_to_ndc_centralizado(double x, double y, double *ndcx, double *ndcy) {
     *ndcx = 2.0 * (x - X_MIN) / (X_MAX - X_MIN) - 1.0;
     *ndcy = 2.0 * (y - Y_MIN) / (Y_MAX - Y_MIN) - 1.0;
