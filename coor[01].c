@@ -25,11 +25,11 @@ void ndc_to_dc(double ndcx, double ndcy, int *dcx, int *dcy) {
 int pixel_x = 0;
 int pixel_y = 0;
 
-//Função de Desenho
-void display() {
+// ==== Função de Desenho ====
+void setPixel() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glColor3f(0.0f, 0.0f, 1.0f);
+    glColor3f(1.0f, 0.0f, 0.0f);
     glBegin(GL_POINTS);
         glVertex2i(pixel_x, pixel_y);
     glEnd();
@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(0, NDH, 0, NDV);
 
-    glutDisplayFunc(display);
+    glutDisplayFunc(setPixel);
     glutMainLoop();
 
     return 0;

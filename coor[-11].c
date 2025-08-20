@@ -25,7 +25,7 @@ int pixel_x = 0;
 int pixel_y = 0;
 
 // ==== Função de Desenho ====
-void display() {
+void setPixel() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     glColor3f(1.0f, 0.0f, 0.0f);
@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(0, NDH, 0, NDV);
 
-    glutDisplayFunc(display);
+    glutDisplayFunc(setPixel);
     glutMainLoop();
 
     return 0;
