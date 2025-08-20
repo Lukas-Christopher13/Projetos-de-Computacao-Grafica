@@ -28,9 +28,9 @@ int pixel_y = 0;
 void setPixel() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glColor3f(1.0f, 0.0f, 0.0f);
+    glColor3f(1.0f, 0.0f, 0.0f); // define cor (vermelho)
     glBegin(GL_POINTS);
-        glVertex2i(pixel_x, pixel_y);
+        glVertex2i(pixel_x, pixel_y); // posição do pixel calculada
     glEnd();
 
     glFlush();
@@ -55,12 +55,12 @@ int main(int argc, char** argv) {
     pixel_x = dcx;
     pixel_y = dcy;
 
-    // Inicializa OpenGL
+    // Configuração do OpenGL
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(NDH, NDV);
-    glutInitWindowPosition(100, 100);
-    glutCreateWindow("Pixel OpenGL - NDC [-1,1]");
+    glutInitWindowSize(NDH, NDV); // tamanho da janela
+    glutInitWindowPosition(100, 100); // posição onde a janela vai abrir
+    glutCreateWindow("Pixel OpenGL - NDC [-1,1]"); 
 
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(0, NDH, 0, NDV);
