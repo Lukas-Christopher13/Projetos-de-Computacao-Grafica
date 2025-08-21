@@ -63,6 +63,10 @@ int main() {
     ndcx = worldToNdcX(x);
     ndcy = worldToNdcY(y);
 
+    
+    printf("x = %f\n", ndcx); 
+    printf("y = %f\n", ndcy); 
+
     cout << "Coordenadas NDC: (" << ndcx << ", " << ndcy << ")" << endl;
     
     dcx = ndcToDiviceX(ndcx, width);
@@ -187,7 +191,7 @@ float worldToNdcX(float x) {
 }
 
 float worldToNdcY(float y) {
-    return 2.0 * (y - X_MIN) / (X_MAX - X_MIN) - 1.0;
+    return 2.0 * (y - Y_MIN) / (Y_MAX - Y_MIN) - 1.0;
 }
 
 int ndcToDiviceX(float ndcx, int width) {
